@@ -1,6 +1,6 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { userActions } from "@/redux/slices/userSlice";
-import { IUpsertUser, User } from "@/types";
+import { IupdateUser, User } from "@/types";
 import { FC, useState } from "react";
 import Modal from "../components/modal/Modal";
 import DeleteUserModal from "./modal/DeleteUser";
@@ -23,7 +23,7 @@ const Card: FC<CardProps> = ({ user }) => {
   };
   const handleSave = (updatedUser: User) => {
     dispatch(
-      userActions.upsertUser({
+      userActions.updateUser({
         id: user?.login.uuid,
         email: updatedUser.email,
         city: updatedUser.location.city,
@@ -95,8 +95,6 @@ const Card: FC<CardProps> = ({ user }) => {
         onSave={handleSave}
       />
     </div>
-
-    
   );
 };
 

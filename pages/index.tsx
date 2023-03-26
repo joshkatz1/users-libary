@@ -1,11 +1,8 @@
 import Head from "next/head";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import { useEffect } from "react";
-import { fetchUsers, userActions } from "@/redux/slices/userSlice";
-import CardGrid from "@/components/CardGrid";
+import { fetchUsersRequest, userActions } from "@/redux/slices/userSlice";
 import Search from "@/components/search";
 import { useState } from "react";
 import NewUserModal from "../components/modal/CreateUser";
@@ -20,9 +17,10 @@ export default function Home() {
     (state) => state.usersReducer
   );
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
+  console.log(users);
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    dispatch(fetchUsersRequest());
   }, [dispatch]);
 
   const handleNewUserClick = () => {
@@ -31,7 +29,7 @@ export default function Home() {
 
   const handleSaveNewUser = (updatedUser: User) => {
     dispatch(
-      userActions.upsertUser({
+      userActions.updateUser({
         id: updatedUser.login.uuid,
         email: updatedUser.email,
         city: updatedUser.location.city,

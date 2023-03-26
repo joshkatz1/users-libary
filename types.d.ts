@@ -1,6 +1,3 @@
-
-
-  
 export interface User {
   name: {
     title: string;
@@ -24,11 +21,11 @@ export interface User {
   };
 }
 interface UserState {
-    users: User[];
-    isLoading: boolean;
-    error: string;
+  users: User[];
+  isLoading: boolean;
+  error: string;
 }
-export interface IUpsertUser {
+export interface IupdateUser {
   id: string;
   email: string;
   city: string;
@@ -42,4 +39,3 @@ export interface IUpsertUser {
 export interface UsersResponse {
   results: User[];
 }
-

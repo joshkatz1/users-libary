@@ -21,7 +21,7 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
   const [isEmailValid, setEmailValid] = useState(true);
   const [isFormValid, setFormValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [picture, setPicture] = useState<FileList | null>(null);
+  const [picture, setPicture] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,12 +45,11 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
         country: country,
       },
       picture: {
-        medium: picture ? URL.createObjectURL(picture[0]) : "",
+        medium: picture,
       },
     };
 
     if (!isEmailValid || !isFormValid) return;
-
     onSave(newUser);
 
     // Clear form values
@@ -64,7 +63,7 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
     setEmailValid(true);
     setFormValid(true);
     setErrorMessage("");
-    setPicture(null);
+    
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +88,7 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
     setFormValid(true);
     setErrorMessage("");
   };
+  
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Add User">
       <form onSubmit={handleSubmit} onInput={handleFormValidation}>
@@ -141,7 +141,6 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
               name="email"
               id="email"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-             
               value={email}
               onChange={handleEmailChange}
               required
@@ -164,7 +163,6 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
               name="streetNumber"
               id="streetNumber"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-             
               value={streetNumber}
               onChange={(e) => setStreetNumber(e.target.value)}
               required
@@ -182,7 +180,6 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
               name="streetName"
               id="streetName"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-             
               value={streetName}
               onChange={(e) => setStreetName(e.target.value)}
               required
@@ -200,7 +197,6 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
               name="city"
               id="city"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-             
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
@@ -218,37 +214,12 @@ const NewUserModal: FC<NewUserModalProps> = ({ isOpen, onClose, onSave }) => {
               name="country"
               id="country"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-             
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               required
             />
           </div>
-          {/* <div className="mb-4">
-                        <label
-                            htmlFor="picture"
-                            className="block text-gray-800 font-bold mb-2"
-                        >
-                            Picture
-                        </label>
-                        <div className="flex items-center justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                            <div className="space-y-1 text-center">
-                                <svg
-                                    className="mx-auto h-12 w-12 text-gray-400"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 48 48"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M27.607 26.93l-4.214 4.215a.6.6 0 01-.849 0l-4.214-4.215a.6.6 0 01.425-1.025h2.101V21.6H8.157v4.305h2.1a.6.6 0 01.425 1.025l-4.214 4.215a.6.6 0 010 .849l4.214 4.215a.6.6 0 01.849 0l4.214-4.215a.6.6 0 010-.849zM16.5 24a3.5 3.5 0 110-7 3.5 3.5 0 010 7zm0-1.2a2.3 2.3 0 100-4.6 2.3 2.3 0 000 4.6z"
-                                    />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-               
-                     */}
+          
 
           {!isFormValid && (
             <p className="text-red-500 text-xs mt-1">{errorMessage}</p>

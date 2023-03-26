@@ -1,17 +1,15 @@
-import { IUpsertUser, User ,UserState } from '../../types'
+import { IupdateUser, User, UserState } from "../../types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 export const API_URL = "https://randomuser.me/api";
 
 const getUsers = async () => {
-    const response = await fetch(`${API_URL}/?results=10`);
-    if (!response.ok) {
-      throw new Error(`Error fetching users: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data.results;
+  const response = await fetch(`${API_URL}/?results=10`);
+  if (!response.ok) {
+    throw new Error(`Error fetching users: ${response.statusText}`);
   }
-
-
+  const data = await response.json();
+  return data.results;
+};
 
 const initialState: UserState = {
   users: [],
@@ -19,7 +17,7 @@ const initialState: UserState = {
   error: "",
 };
 
-export const  fetchUsers = createAsyncThunk(
+export const fetchUsersRequest = createAsyncThunk(
   "users/fetch",
   async (_, thunkAPI) => {
     try {
@@ -38,11 +36,17 @@ const userSlice = createSlice({
     setUsers(state, action: PayloadAction<User[]>) {
       state.users = action.payload;
     },
-    upsertUser(state, action: PayloadAction<IUpsertUser>) {
-      const userIdx = state.users.findIndex((user) => {
+    deleteUser(state, action: PayloadAction<string>) {
+      state.users.splice(
+        state.users.findIndex((user) => user.login.uuid === action.payload),
+        1
+      );
+    },
+    updateUser(state, action: PayloadAction<IupdateUser>) {
+      const position = state.users.findIndex((user) => {
         return user.login.uuid === action.payload.id;
       });
-      const user = state.users[userIdx];
+      const user = state.users[position];
 
       const newUser: User = {
         name: {
@@ -66,32 +70,28 @@ const userSlice = createSlice({
           medium: user?.picture?.medium ,
         },
       };
+      if (!user?.picture?.medium) {
+         newUser.picture.medium = "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png"
+      }
 
       if (user) {
-        
-        state.users[userIdx] = newUser;
+        state.users[position] = newUser;
       } else {
-        
         state.users.push(newUser);
       }
     },
-    deleteUser(state, action: PayloadAction<string>) {
-      state.users.splice(
-        state.users.findIndex((user) => user.login.uuid === action.payload),
-        1
-      );
-    },
+    
   },
   extraReducers: {
-    [fetchUsers.pending.type]: (state) => {
+    [fetchUsersRequest.pending.type]: (state) => {
       state.isLoading = true;
     },
-    [fetchUsers.fulfilled.type]: (state, action: PayloadAction<User[]>) => {
+    [fetchUsersRequest.fulfilled.type]: (state, action: PayloadAction<User[]>) => {
       state.isLoading = false;
       state.error = "";
       state.users = action.payload;
     },
-    [fetchUsers.rejected.type]: (state, action: PayloadAction<string>) => {
+    [fetchUsersRequest.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.error = action.payload;
     },
