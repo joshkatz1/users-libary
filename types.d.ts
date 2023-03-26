@@ -36,6 +36,3 @@ export interface IupdateUser {
   lastName: string;
 }
 
-export interface UsersResponse {
-  results: User[];
-}
