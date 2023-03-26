@@ -82,7 +82,7 @@ const EditUserModal: FC<EditUserModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Edit User">
       <form onSubmit={handleSubmit} onInput={handleFormValidation}>
-        <div className="py-4 text-gray-700">
+        <div className="sm:h-[500px] py-4 text-gray-700">
           <div className="mb-4">
             <label
               htmlFor="firstName"

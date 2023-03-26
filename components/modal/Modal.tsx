@@ -13,7 +13,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, title,children }) => {
   return  (
     <div className="fixed inset-0 z-50 flex items-center justify-center ">
       <div className="fixed inset-0 bg-gray-600 opacity-75"></div>
-      <div className=" bg-white rounded-lg shadow-lg z-10 max-w-md w-full max-h-screen overflow-y-auto sm:h-[500px]  ">
+      <div className=" bg-white rounded-lg shadow-lg z-10 max-w-md w-full max-h-screen overflow-y-auto   ">
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-300">
           <h2 className="text-md item-center justify font-semibold">{title}</h2>
           <button

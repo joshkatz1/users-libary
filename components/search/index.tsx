@@ -94,8 +94,8 @@ const Search: FC<SearchProps> = ({ users }) => {
 </form>
    
   <div className="flex flex-col justify-center items-center py-8">
-      <CardGrid users={filteredUsers.length ? filteredUsers : users} />
-  </div>
+  <CardGrid users={filteredUsers.length ? filteredUsers : []} />
+</div>
       </div>
     
   )
